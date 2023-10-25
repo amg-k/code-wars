@@ -174,4 +174,10 @@ public class CodeRepository {
         }
         return romanNum;
     }
+
+    //rekurencyjna metoda obliczająca silnię
+    static int fact(int n) {
+        if (n < 2) return 1;
+        return n * fact(n - 1);
+    }
 }
