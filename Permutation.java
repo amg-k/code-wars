@@ -1,12 +1,18 @@
 import java.util.*;
 public class Permutation {
-    static Set<String> permSet = new HashSet<>();
-    static int idx = 0;
-
+    static Set<String> permSet;
+    
     public static void main(String[] args) {
-        System.out.println(perm(new StringBuilder("abc"), idx));
-        List<String> l = List.copyOf(permSet);
-        System.out.println(l);
+        System.out.println(doPerm("abcd"));
+    }
+
+    static List<String> doPerm(String s) {
+        permSet = new HashSet<>();
+        StringBuilder b = new StringBuilder(s);
+        int idx = 0;
+
+        List<String> list = List.copyOf(perm(b, idx));
+        return list;
     }
 
     static Set<String> perm(StringBuilder b, int idx) {
