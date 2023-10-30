@@ -9,12 +9,10 @@ public class TimeFormatter {
     static int[] timeUnits = new int[5]; //[0]years, [1]days, [2]hours, [3]min, [4]sec;
     static String[] phraseArr = new String[] {"", "", "", "", "", "", "", "", ""};
     static String yearsPhrase, daysPhrase, hoursPhrase, minPhrase, secPhrase;
+    
     public static void main(String[] args) {
-        formatDuration(832374180);
-        System.out.println(Arrays.toString(timeUnits));
-        System.out.println(Arrays.toString(phraseArr));
-        //System.out.println(String.join(" ", yearsPhrase, daysPhrase, hoursPhrase, minPhrase, secPhrase));
-
+        formatDuration(185);
+        System.out.println(arrayToString(phraseArr));
     }
 
     static String formatDuration(int seconds) {
@@ -51,9 +49,38 @@ public class TimeFormatter {
         phraseArr[6] = timeUnits[3] == 0 ? "" : timeUnits[3] == 1 ? "1 minute" : String.join(" ", String.valueOf(timeUnits[3]), "minutes");
         phraseArr[8] = timeUnits[4] == 0 ? "" : timeUnits[4] == 1 ? "1 second" : String.join(" ", String.valueOf(timeUnits[4]), "seconds");
 
-        for (int i = 7; i >=2; i -= 2) {
+        for (int i = 1; i <= 7; i += 2) {
             phraseArr[i] = phraseArr[i + 1].isEmpty() ? "" : ", ";
         }
+
+        placeAnd(8);
+    }
+
+    static void placeAnd(int idx) {
+        if (idx < 4) return;
+        if (phraseArr[idx].isEmpty()) {
+            placeAnd(idx - 2);
+        } else {
+            phraseArr[idx - 1] = " and ";
+        }
+    }
+
+    static String constructString(String[] arr) {
+        var b = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            b.append(arr[i]);
+            if (i < arr.length - 1 && arr[i + 1].isEmpty());
+
+        }
+        return "";
+    }
+
+    static String arrayToString(String[] arr) {
+        var b = new StringBuilder();
+        for (String s : arr) {
+            b.append(s);
+        }
+        return b.toString();
     }
 
 
