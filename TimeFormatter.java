@@ -7,19 +7,17 @@ public class TimeFormatter {
     static final int SEC_IN_MINUTE = 60;
 
     static int[] timeUnits = new int[5]; //[0]years, [1]days, [2]hours, [3]min, [4]sec;
-    static String[] phraseArr = new String[] {"", "", "", "", "", "", "", "", ""};
-    static String yearsPhrase, daysPhrase, hoursPhrase, minPhrase, secPhrase;
+    static List<String> phraseList = new ArrayList<>();
     
     public static void main(String[] args) {
-        formatDuration(185);
-        System.out.println(arrayToString(phraseArr));
+        System.out.println(formatDuration(54625171));
     }
 
     static String formatDuration(int seconds) {
         secondsDivide(seconds);
         phraseAssign();
-        
-        return "test";
+        placeDelimiters();
+        return constructString(phraseList);
     }
 
     static void secondsDivide(int seconds) {
@@ -43,45 +41,30 @@ public class TimeFormatter {
     }
 
     static void phraseAssign() {
-        phraseArr[0] = timeUnits[0] == 0 ? "" : timeUnits[0] == 1 ? "1 year" : String.join(" ", String.valueOf(timeUnits[0]), "years");
-        phraseArr[2] = timeUnits[1] == 0 ? "" : timeUnits[1] == 1 ? "1 day" : String.join(" ", String.valueOf(timeUnits[1]), "days");
-        phraseArr[4] = timeUnits[2] == 0 ? "" : timeUnits[2] == 1 ? "1 hour" : String.join(" ", String.valueOf(timeUnits[2]), "hours");
-        phraseArr[6] = timeUnits[3] == 0 ? "" : timeUnits[3] == 1 ? "1 minute" : String.join(" ", String.valueOf(timeUnits[3]), "minutes");
-        phraseArr[8] = timeUnits[4] == 0 ? "" : timeUnits[4] == 1 ? "1 second" : String.join(" ", String.valueOf(timeUnits[4]), "seconds");
-
-        for (int i = 1; i <= 7; i += 2) {
-            phraseArr[i] = phraseArr[i + 1].isEmpty() ? "" : ", ";
-        }
-
-        placeAnd(8);
+        if (timeUnits[0] == 1) phraseList.add("1 year");
+        else if (timeUnits[0] != 0) phraseList.add(String.join(" ", String.valueOf(timeUnits[0]), "years"));
+        if (timeUnits[1] == 1) phraseList.add("1 day");
+        else if (timeUnits[1] != 0) phraseList.add(String.join(" ", String.valueOf(timeUnits[1]), "days"));
+        if (timeUnits[2] == 1) phraseList.add("1 hour");
+        else if (timeUnits[2] != 0) phraseList.add(String.join(" ", String.valueOf(timeUnits[2]), "hours"));
+        if (timeUnits[3] == 1) phraseList.add("1 minute");
+        else if (timeUnits[3] != 0) phraseList.add(String.join(" ", String.valueOf(timeUnits[3]), "minutes"));
+        if (timeUnits[4] == 1) phraseList.add("1 second");
+        else if (timeUnits[4] != 0) phraseList.add(String.join(" ", String.valueOf(timeUnits[4]), "seconds"));
     }
 
-    static void placeAnd(int idx) {
-        if (idx < 4) return;
-        if (phraseArr[idx].isEmpty()) {
-            placeAnd(idx - 2);
-        } else {
-            phraseArr[idx - 1] = " and ";
+    static void placeDelimiters() {
+        for (int i = 0; i <= phraseList.size() - 3; i++) {
+            phraseList.set(i, phraseList.get(i) + ", ");
         }
+        if (phraseList.size() >= 2) phraseList.set(phraseList.size() - 1, " and " + phraseList.get(phraseList.size() - 1));
     }
 
-    static String constructString(String[] arr) {
+    static String constructString(List<String> list) {
         var b = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            b.append(arr[i]);
-            if (i < arr.length - 1 && arr[i + 1].isEmpty());
-
-        }
-        return "";
-    }
-
-    static String arrayToString(String[] arr) {
-        var b = new StringBuilder();
-        for (String s : arr) {
+        for (String s : list) {
             b.append(s);
         }
         return b.toString();
     }
-
-
 }
